@@ -97,99 +97,426 @@ const MyNotes = () => {
               Delete
             </Button>
           </div>
-          <Card
-            style={{
-              flex: 1,
-              padding: "20px",
-              marginLeft: "20px",
-              boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-            }}
-          >
-            <h2 style={{ textAlign: "center" }}>
-              <strong>Tax Details</strong>
-            </h2>
-            <br />
-            <div
-              style={{ margin: "0 auto", maxWidth: "400px", textAlign: "left" }}
+         
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
+{/* Empty */}
+{(note.status === "") && (
+    <Card
+        style={{
+            flex: 1,
+            padding: "20px",
+            margin: "20px 0",
+            boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+            maxWidth: "600px"
+        }}
+    >
+        <h2 style={{ textAlign: "center" }}>
+            <strong>Tax Details</strong>
+        </h2>
+        <br />
+        <div style={{ margin: "0 auto", maxWidth: "600px", textAlign: "left" }}>
+        <p style={{ fontSize: "18px", textAlign: "center" }}>
+            Not allocated tax information yet. Please Contact Admin to set tax details for you..
+        </p>
+</div>
+
+    </Card>
+)}
+
+{/* 1st Quarter */}
+{(note.status === "pending" || note.status === "done") && (
+    <Card
+        style={{
+            flex: 1,
+            padding: "20px",
+            margin: "20px 0",
+            boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+            maxWidth: "600px"
+        }}
+    >
+        <h2 style={{ textAlign: "center" }}>
+            <strong>Tax Details - 1st Quarter</strong>
+        </h2>
+        <br />
+        <div style={{ margin: "0 auto", maxWidth: "600px", textAlign: "left" }}>
+    {note.payment ? (
+        <>
+            <p style={{ fontSize: "18px", whiteSpace: "nowrap" }}>
+                <strong style={{ display: "inline-block", width: "200px" }}>
+                    Tax ID
+                </strong>{" "}
+                : &emsp;{note._id}
+            </p>
+            <p style={{ fontSize: "18px", whiteSpace: "nowrap" }}>
+                <strong style={{ display: "inline-block", width: "200px" }}>
+                    Tax payment(3 months)
+                </strong>{" "}
+                : &emsp;{(note.payment / 4).toFixed(2)} LKR
+            </p>
+            <p style={{ fontSize: "18px", whiteSpace: "nowrap" }}>
+                <strong style={{ display: "inline-block", width: "200px" }}>
+                    Dept. Payment
+                </strong>{" "}
+                : &emsp; {((note.payment * 0.15) / 4).toFixed(2)} LKR
+            </p>
+            <p
+                style={{
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                    whiteSpace: "nowrap",
+                }}
             >
-              {note.payment ? (
-                <>
-                  <p style={{ fontSize: "18px", whiteSpace: "nowrap" }}>
-                    <strong style={{ display: "inline-block", width: "200px" }}>
-                      Tax ID
-                    </strong>{" "}
-                    : &emsp;{note._id}
-                  </p>
-                  <p style={{ fontSize: "18px", whiteSpace: "nowrap" }}>
-                    <strong style={{ display: "inline-block", width: "200px" }}>
-                      Tax payment(3 months)
-                    </strong>{" "}
-                    : &emsp;{(note.payment / 4).toFixed(2)} LKR
-                  </p>
-                  <p style={{ fontSize: "18px", whiteSpace: "nowrap" }}>
-                    <strong style={{ display: "inline-block", width: "200px" }}>
-                      Dept. Payment
-                    </strong>{" "}
-                    : &emsp; {((note.payment * 0.15) / 4).toFixed(2)} LKR
-                  </p>
-                  <p
-                    style={{
-                      fontSize: "20px",
-                      fontWeight: "bold",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    <strong style={{ display: "inline-block", width: "200px" }}>
-                      Total Payment
-                    </strong>{" "}
-                    : &emsp;
-                    {(note.payment / 4 + (note.payment * 0.15) / 4).toFixed(2)}{" "}
-                    LKR
-                  </p>
-                  <br />
-                  <div style={{ textAlign: "center" }}>
-                    {note.status === "pending" && (
-                      <Link to="/payment">
+                <strong style={{ display: "inline-block", width: "200px" }}>
+                    Total Payment
+                </strong>{" "}
+                : &emsp;
+                {(note.payment / 4 + (note.payment * 0.15) / 4).toFixed(2)}{" "}
+                LKR
+            </p>
+            <br />
+            <div style={{ textAlign: "center" }}>
+                {note.status === "pending" && (
+                    <Link to="/payment">
                         <Button
-                          style={{
-                            width: "150px",
-                            color: "#fff",
-                            fontSize: "20px",
-                            padding: "10px 20px",
-                          }}
+                            style={{
+                                width: "150px",
+                                color: "#fff",
+                                fontSize: "20px",
+                                padding: "10px 20px",
+                            }}
                         >
-                          Pay Now
+                            Pay Now
                         </Button>
-                      </Link>
-                    )}
-                    {note.status === "done" && (
-                      <div
+                    </Link>
+                )}
+                {note.status === "done" && (
+                    <div
                         style={{
-                          border: "2px solid green",
-                          color: "green",
-                          padding: "5px 20px", // Increased horizontal padding
-                          borderRadius: "5px",
-                          display: "inline-block",
-                          textAlign: "center",
-                          fontWeight: "bold",
-                          fontSize: "24px", // Increased text size
-                          transform: "rotate(-5deg)",
-                          fontFamily: "Arial, sans-serif", // Sharp font family
+                            border: "2px solid green",
+                            color: "green",
+                            padding: "5px 20px",
+                            borderRadius: "5px",
+                            display: "inline-block",
+                            textAlign: "center",
+                            fontWeight: "bold",
+                            fontSize: "24px",
+                            transform: "rotate(-5deg)",
+                            fontFamily: "Arial, sans-serif",
                         }}
-                      >
+                    >
                         Paid
-                      </div>
-                    )}
-                  </div>
-                </>
-              ) : (
-                <p style={{ fontSize: "18px" }}>
-                  Not allocated tax information yet.
-                </p>
-              )}
+                    </div>
+                )}
             </div>
-          </Card>
+        </>
+    ) : (
+        <p style={{ fontSize: "18px" }}>
+            Not allocated tax information yet.
+        </p>
+    )}
+</div>
+
+    </Card>
+)}
+
+{/* 2nd Quarter */}
+{(note.status2 === "pending" || note.status2 === "done") && (
+    <Card
+        style={{
+            flex: 1,
+            padding: "20px",
+            margin: "20px 0",
+            boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+            maxWidth: "600px"
+        }}
+    >
+        <h2 style={{ textAlign: "center" }}>
+            <strong>Tax Details - 2nd Quarter</strong>
+        </h2>
+        <br />
+        <div style={{ margin: "0 auto", maxWidth: "600px", textAlign: "left" }}>
+    {note.payment ? (
+        <>
+            <p style={{ fontSize: "18px", whiteSpace: "nowrap" }}>
+                <strong style={{ display: "inline-block", width: "200px" }}>
+                    Tax ID
+                </strong>{" "}
+                : &emsp;{note._id}
+            </p>
+            <p style={{ fontSize: "18px", whiteSpace: "nowrap" }}>
+                <strong style={{ display: "inline-block", width: "200px" }}>
+                    Tax payment(3 months)
+                </strong>{" "}
+                : &emsp;{(note.payment / 4).toFixed(2)} LKR
+            </p>
+            <p style={{ fontSize: "18px", whiteSpace: "nowrap" }}>
+                <strong style={{ display: "inline-block", width: "200px" }}>
+                    Dept. Payment
+                </strong>{" "}
+                : &emsp; {((note.payment * 0.15) / 4).toFixed(2)} LKR
+            </p>
+            <p
+                style={{
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                    whiteSpace: "nowrap",
+                }}
+            >
+                <strong style={{ display: "inline-block", width: "200px" }}>
+                    Total Payment
+                </strong>{" "}
+                : &emsp;
+                {(note.payment / 4 + (note.payment * 0.15) / 4).toFixed(2)}{" "}
+                LKR
+            </p>
+            <br />
+            <div style={{ textAlign: "center" }}>
+                {note.status2 === "pending" && (
+                    <Link to="/payment">
+                        <Button
+                            style={{
+                                width: "150px",
+                                color: "#fff",
+                                fontSize: "20px",
+                                padding: "10px 20px",
+                            }}
+                        >
+                            Pay Now
+                        </Button>
+                    </Link>
+                )}
+                {note.status2 === "done" && (
+                    <div
+                        style={{
+                            border: "2px solid green",
+                            color: "green",
+                            padding: "5px 20px",
+                            borderRadius: "5px",
+                            display: "inline-block",
+                            textAlign: "center",
+                            fontWeight: "bold",
+                            fontSize: "24px",
+                            transform: "rotate(-5deg)",
+                            fontFamily: "Arial, sans-serif",
+                        }}
+                    >
+                        Paid
+                    </div>
+                )}
+            </div>
+        </>
+    ) : (
+        <p style={{ fontSize: "18px" }}>
+            Not allocated tax information yet.
+        </p>
+    )}
+</div>
+
+    </Card>
+)}
+
+{/* 3rd Quarter */}
+{(note.status3 === "pending" || note.status3 === "done") && (
+    <Card
+        style={{
+            flex: 1,
+            padding: "20px",
+            margin: "20px 0",
+            boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+            maxWidth: "600px"
+        }}
+    >
+        <h2 style={{ textAlign: "center" }}>
+            <strong>Tax Details - 3rd Quarter</strong>
+        </h2>
+        <br />
+        <div style={{ margin: "0 auto", maxWidth: "600px", textAlign: "left" }}>
+    {note.payment ? (
+        <>
+            <p style={{ fontSize: "18px", whiteSpace: "nowrap" }}>
+                <strong style={{ display: "inline-block", width: "200px" }}>
+                    Tax ID
+                </strong>{" "}
+                : &emsp;{note._id}
+            </p>
+            <p style={{ fontSize: "18px", whiteSpace: "nowrap" }}>
+                <strong style={{ display: "inline-block", width: "200px" }}>
+                    Tax payment(3 months)
+                </strong>{" "}
+                : &emsp;{(note.payment / 4).toFixed(2)} LKR
+            </p>
+            <p style={{ fontSize: "18px", whiteSpace: "nowrap" }}>
+                <strong style={{ display: "inline-block", width: "200px" }}>
+                    Dept. Payment
+                </strong>{" "}
+                : &emsp; {((note.payment * 0.15) / 4).toFixed(2)} LKR
+            </p>
+            <p
+                style={{
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                    whiteSpace: "nowrap",
+                }}
+            >
+                <strong style={{ display: "inline-block", width: "200px" }}>
+                    Total Payment
+                </strong>{" "}
+                : &emsp;
+                {(note.payment / 4 + (note.payment * 0.15) / 4).toFixed(2)}{" "}
+                LKR
+            </p>
+            <br />
+            <div style={{ textAlign: "center" }}>
+                {note.status3 === "pending" && (
+                    <Link to="/payment">
+                        <Button
+                            style={{
+                                width: "150px",
+                                color: "#fff",
+                                fontSize: "20px",
+                                padding: "10px 20px",
+                            }}
+                        >
+                            Pay Now
+                        </Button>
+                    </Link>
+                )}
+                {note.status3 === "done" && (
+                    <div
+                        style={{
+                            border: "2px solid green",
+                            color: "green",
+                            padding: "5px 20px",
+                            borderRadius: "5px",
+                            display: "inline-block",
+                            textAlign: "center",
+                            fontWeight: "bold",
+                            fontSize: "24px",
+                            transform: "rotate(-5deg)",
+                            fontFamily: "Arial, sans-serif",
+                        }}
+                    >
+                        Paid
+                    </div>
+                )}
+            </div>
+        </>
+    ) : (
+        <p style={{ fontSize: "18px" }}>
+            Not allocated tax information yet.
+        </p>
+    )}
+</div>
+
+    </Card>
+)}
+
+{/* 4th Quarter */}
+{(note.status4 === "pending" || note.status4 === "done") && (
+    <Card
+        style={{
+            flex: 1,
+            padding: "20px",
+            margin: "20px 0",
+            boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+            maxWidth: "600px"
+        }}
+    >
+        <h2 style={{ textAlign: "center" }}>
+            <strong>Tax Details - 4th Quarter</strong>
+        </h2>
+        <br />
+        <div style={{ margin: "0 auto", maxWidth: "600px", textAlign: "left" }}>
+    {note.payment ? (
+        <>
+            <p style={{ fontSize: "18px", whiteSpace: "nowrap" }}>
+                <strong style={{ display: "inline-block", width: "200px" }}>
+                    Tax ID
+                </strong>{" "}
+                : &emsp;{note._id}
+            </p>
+            <p style={{ fontSize: "18px", whiteSpace: "nowrap" }}>
+                <strong style={{ display: "inline-block", width: "200px" }}>
+                    Tax payment(3 months)
+                </strong>{" "}
+                : &emsp;{(note.payment / 4).toFixed(2)} LKR
+            </p>
+            <p style={{ fontSize: "18px", whiteSpace: "nowrap" }}>
+                <strong style={{ display: "inline-block", width: "200px" }}>
+                    Dept. Payment
+                </strong>{" "}
+                : &emsp; {((note.payment * 0.15) / 4).toFixed(2)} LKR
+            </p>
+            <p
+                style={{
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                    whiteSpace: "nowrap",
+                }}
+            >
+                <strong style={{ display: "inline-block", width: "200px" }}>
+                    Total Payment
+                </strong>{" "}
+                : &emsp;
+                {(note.payment / 4 + (note.payment * 0.15) / 4).toFixed(2)}{" "}
+                LKR
+            </p>
+            <br />
+            <div style={{ textAlign: "center" }}>
+                {note.status4 === "pending" && (
+                    <Link to="/payment">
+                        <Button
+                            style={{
+                                width: "150px",
+                                color: "#fff",
+                                fontSize: "20px",
+                                padding: "10px 20px",
+                            }}
+                        >
+                            Pay Now
+                        </Button>
+                    </Link>
+                )}
+                {note.status4 === "done" && (
+                    <div
+                        style={{
+                            border: "2px solid green",
+                            color: "green",
+                            padding: "5px 20px",
+                            borderRadius: "5px",
+                            display: "inline-block",
+                            textAlign: "center",
+                            fontWeight: "bold",
+                            fontSize: "24px",
+                            transform: "rotate(-5deg)",
+                            fontFamily: "Arial, sans-serif",
+                        }}
+                    >
+                        Paid
+                    </div>
+                )}
+            </div>
+        </>
+    ) : (
+        <p style={{ fontSize: "18px" }}>
+            Not allocated tax information yet.
+        </p>
+    )}
+</div>
+
+    </Card>
+)}
+
+
+
+</div>
+
+
+
+          
         </div>
+        
       ))}
     </MainScreen>
   );

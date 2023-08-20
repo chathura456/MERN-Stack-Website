@@ -9,11 +9,12 @@ import LoginScreen from './screens/LoginScreen/LoginScreen';
 import MyNotes from './screens/MyNotes/MyNotes';
 import Success from './screens/Payments/complete';
 import Payment from './screens/Payments/payment';
+import ProfileScreen from './screens/ProfileScreen/ProfileScreen';
 import RegisterScreen from './screens/RegisterScreen/RegisterScreen';
 
 const MainContent = () => {
   const location = useLocation();
-  const showHeader = ['/mynotes', '/createnote'].includes(location.pathname);
+  const showHeader = ['/mynotes', '/createnote','/profile'].includes(location.pathname);
 
   return (
     <>
@@ -27,6 +28,7 @@ const MainContent = () => {
           <Route path="/mynotes" element={<MyNotes />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/success" element={<Success />} />
+          <Route path="/profile" element={<ProfileScreen />} />
         </Routes>
       </main>
     </>

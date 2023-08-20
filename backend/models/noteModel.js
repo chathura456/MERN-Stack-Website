@@ -28,6 +28,18 @@ const noteSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+    status2: {
+      type: String,
+      required: false,
+    },
+    status3: {
+      type: String,
+      required: false,
+    },
+    status4: {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: true,

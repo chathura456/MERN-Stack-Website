@@ -1,9 +1,10 @@
 .profilePic {
-  width: 60%;
-  display: flex;
-  align-items: center;
-  padding: 20px;
+  width: 300px; /* Adjust this value to your desired width */
+  height: 300px; /* Adjust this value to your desired height */
+  object-fit: cover; /* Ensures the image covers the entire space without distortion */
+  border: 2px solid #333; /* Optional: Adds a border around the image */
 }
+
 .profileContainer {
   display: flex;
   margin: 20px;

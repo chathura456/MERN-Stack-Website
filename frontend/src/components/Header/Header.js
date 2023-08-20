@@ -19,11 +19,12 @@ const Header = () => {
     navigate("/");
   };
 
+
   return (
     <Navbar bg="primary" expand="sm" variant="dark">
       <Container>
         <Navbar.Brand>
-          <Link to="/"><h2>Tax Online</h2></Link>
+          <Link to="/mynotes"><h2>Tax Online</h2></Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
@@ -40,7 +41,7 @@ const Header = () => {
           <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: "100px" }} navbarScroll>
             
             <NavDropdown title={`Hello, ${userInfo.name} `} id="navbarScrollingDropdown">
-              <NavDropdown.Item href="#action3">My Profile</NavDropdown.Item>
+            <NavDropdown.Item> <Link to="/profile">Profile</Link></NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action4">Tax Payments</NavDropdown.Item>
               <NavDropdown.Divider />

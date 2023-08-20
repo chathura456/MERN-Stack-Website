@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Modal, Table } from 'react-bootstrap';
-import { Check, Clock, Plus } from 'react-bootstrap-icons';
-
+import { Plus } from 'react-bootstrap-icons';
+import AdminHeader from './header';
+import './header.css';
 
 const AdminPanel = () => {
     const [data, setData] = useState([]);
@@ -11,6 +12,7 @@ const AdminPanel = () => {
             const fetchData = async () => {
                 try {
                     const response = await axios.get('http://localhost:5000/api/notes/usersWithNotes');
+                    console.log(response.data);
                     setData(response.data);
                 } catch (error) {
                     console.error("Error fetching users and notes:", error);
@@ -32,6 +34,7 @@ const AdminPanel = () => {
         setShowModal(false);
         setSelectedNote(null);
     };
+    
 
     const handleSaveChanges = async () => {
         try {
@@ -61,9 +64,13 @@ const AdminPanel = () => {
 
 
         return (
-            <div style={{ margin: '20px' }}>
-                <h1>Admin Panel</h1><br/>
-                
+            
+            <div>
+                <div>
+            <AdminHeader />
+            {/* Rest of your admin panel content */}
+        </div>
+        <div style={{ margin: '50px' }}>
                 <Table bordered>
                     <thead>
                         <tr>
@@ -80,34 +87,42 @@ const AdminPanel = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map((item) => (
-                            <tr key={item._id}>
-                                <td>{item.user.name}</td>
-                                <td>{item.user.email}</td>
-                                <td>{item.title}</td>
-                                <td>{item.content}</td>
-                                <td>{item.category}</td>
-                                <td>
-                                    {item.payment ? (
-                                        <>
-                                            <span className="mr-2">{item.payment}</span>
-            
-                                        </>
-                                    ) : (
-                                        <Button variant="primary" size="sm" onClick={() => handleButtonClick(item)}>
-                                            <Plus /> Add Taxes
-                                        </Button>
-                                    )}
-                                </td>
-                                <td style={{ backgroundColor: item.status === "pending" ? "yellow" : item.status === "done" ? "green" : "white", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                    {item.status === "pending" ? <Clock /> : item.status === "done" ? <Check color="white" size="1.5em" /> : "-"}
-                                </td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                        ))}
-                    </tbody>
+    {data.map((item) => (
+        <tr key={item._id}>
+            <td>{item.user.name}</td>
+            <td>{item.user.email}</td>
+            <td>{item.title}</td>
+            <td>{item.content}</td>
+            <td>{item.category}</td>
+            <td>
+                {item.payment ? (
+                    <>
+                        <span className="mr-2">{item.payment}</span>
+                    </>
+                ) : (
+                    <Button variant="primary" size="sm" onClick={() => handleButtonClick(item)}>
+                        <Plus /> Add Taxes
+                    </Button>
+                )}
+            </td>
+            <td style={{ backgroundColor: item.status === "pending" ? "yellow" : item.status === "done" ? "green" : "white", color: item.status === "done" ? "white" : "black", fontWeight: item.status === "done" ? "bold" : "normal" }}>
+            {item.status || "-"}
+        </td>
+        <td style={{ backgroundColor: item.status2 === "pending" ? "yellow" : item.status2 === "done" ? "green" : "white", color: item.status2 === "done" ? "white" : "black", fontWeight: item.status2 === "done" ? "bold" : "normal" }}>
+            {item.status2 || "-"}
+        </td>
+        <td style={{ backgroundColor: item.status3 === "pending" ? "yellow" : item.status3 === "done" ? "green" : "white", color: item.status3 === "done" ? "white" : "black", fontWeight: item.status3 === "done" ? "bold" : "normal" }}>
+            {item.status3 || "-"}
+        </td>
+        <td style={{ backgroundColor: item.status4 === "pending" ? "yellow" : item.status4 === "done" ? "green" : "white", color: item.status4 === "done" ? "white" : "black", fontWeight: item.status4 === "done" ? "bold" : "normal" }}>
+            {item.status4 || "-"}
+        </td>
+
+        </tr>
+    ))}
+</tbody>
+
+
                 </Table>
                 <Modal show={showModal} onHide={handleCloseModal}>
                 <Modal.Header closeButton>
@@ -144,6 +159,7 @@ const AdminPanel = () => {
                     <Button variant="primary" onClick={handleSaveChanges}>Save Changes</Button>
                 </Modal.Footer>
             </Modal>
+            </div>
             </div>
         );
         

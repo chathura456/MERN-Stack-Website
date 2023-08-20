@@ -16,7 +16,7 @@ const createNote = asyncHandler(
             throw new Error("Please Fill all the Fields");
         
         } else{
-            const note = new Note({ user: req.user._id, title, content, category,payment:'',status:''});
+            const note = new Note({ user: req.user._id, title, content, category,payment:'',status:'',status2:'',status3:'',status4:''});
 
     const createdNote = await note.save();
 
@@ -91,18 +91,35 @@ const updateNoteStatus = asyncHandler(
           throw new Error("Note not found");
       }
 
-      // Update the status of the note
-      note.status = status;
+      // Check the current status and update accordingly
+      if (status === "done" && note.status === "") {
+          note.status = "pending";
+      } else if (status === "done" && note.status === "pending") {
+          note.status = "done";
+          note.status2 = "pending";
+      } else if (status === "done" && note.status2 === "pending") {
+          note.status2 = "done";
+          note.status3 = "pending";
+      } else if (status === "done" && note.status3 === "pending") {
+          note.status3 = "done";
+          note.status4 = "pending";
+      } else if (status === "done" && note.status4 === "pending") {
+          note.status4 = "done";
+      }
 
       // Check if payment is provided and update it
       if (payment !== undefined) {
           note.payment = payment;
+          if (note.status === "") {
+              note.status = "pending";
+          }
       }
 
       const updatedNote = await note.save();
       res.status(200).json(updatedNote);
   }
 );
+
 
 const getAllUsersWithNotes = asyncHandler(
   async (req, res) => {

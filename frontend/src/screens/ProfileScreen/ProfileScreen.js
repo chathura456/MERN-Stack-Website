@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Button, Col, Form, Row } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import MainScreen from "../../components/MainScreen";
 import "./ProfileScreen.css";
-import { useDispatch, useSelector } from "react-redux";
-import { updateProfile } from "../../actions/userActions";
-import Loading from "../../components/Loading";
-import ErrorMessage from "../../components/ErrorMessage";
+//import { updateProfile } from "../../actions/userActions";
+//import ErrorMessage from "../../components/ErrorMessage";
+//import Loading from "../../components/Loading";
 
 const ProfileScreen = ({ location, history }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const noteList = useSelector((state) => state.noteList);
+  const { loading, notes, error } = noteList;
   const [pic, setPic] = useState();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -20,8 +23,8 @@ const ProfileScreen = ({ location, history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const userUpdate = useSelector((state) => state.userUpdate);
-  const { loading, error, success } = userUpdate;
+  //const userUpdate = useSelector((state) => state.userUpdate);
+  //const { loading, error, success } = userUpdate;
 
   useEffect(() => {
     if (!userInfo) {
@@ -33,7 +36,7 @@ const ProfileScreen = ({ location, history }) => {
     }
   }, [history, userInfo]);
 
-  const postDetails = (pics) => {
+  /*const postDetails = (pics) => {
     setPicMessage(null);
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
       const data = new FormData();
@@ -55,93 +58,123 @@ const ProfileScreen = ({ location, history }) => {
     } else {
       return setPicMessage("Please Select an Image");
     }
-  };
+  };*/
 
   const submitHandler = (e) => {
     e.preventDefault();
 
-    dispatch(updateProfile({ name, email, password, pic }));
+    //dispatch(updateProfile({ name, email, password, pic }));
   };
 
   return (
-    <MainScreen title="EDIT PROFILE">
-      <div>
+    <MainScreen title="User PROFILE">
+    <div>
+   <br/>
+
         <Row className="profileContainer">
-          <Col md={6}>
-            <Form onSubmit={submitHandler}>
-              {loading && <Loading />}
-              {success && (
-                <ErrorMessage variant="success">
-                  Updated Successfully
-                </ErrorMessage>
-              )}
-              {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-              <Form.Group controlId="name">
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group controlId="email">
-                <Form.Label>Email Address</Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="Enter Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group controlId="password">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Enter Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group controlId="confirmPassword">
-                <Form.Label>Confirm Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Confirm Password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                ></Form.Control>
-              </Form.Group>{" "}
-              {picMessage && (
-                <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
-              )}
-              <Form.Group controlId="pic">
-                <Form.Label>Change Profile Picture</Form.Label>
-                <Form.File
-                  onChange={(e) => postDetails(e.target.files[0])}
-                  id="custom-file"
-                  type="image/png"
-                  label="Upload Profile Picture"
-                  custom
-                />
-              </Form.Group>
-              <Button type="submit" varient="primary">
-                Update
-              </Button>
-            </Form>
-          </Col>
-          <Col
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <img src={pic} alt={name} className="profilePic" />
-          </Col>
+            {/* Left Column */}
+            {/* Left Column for Profile Picture */}
+            <Col md={6} style={{ textAlign: "center", marginBottom: "20px" }}>
+                <img src="https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg" alt={name} className="profilePic" />
+            </Col>
+
+            {/* Right Column for User and Company Details */}
+            <Col md={6}>
+            <br/><br/>
+                <Form onSubmit={submitHandler}>
+                    <p style={{ fontSize: "18px" }}>
+                        <strong style={{ display: "inline-block", width: "250px" }}>
+                            User Name
+                        </strong> :&emsp;{name}
+                    </p>
+                    <p style={{ fontSize: "18px" }}>
+                        <strong style={{ display: "inline-block", width: "250px" }}>
+                            User Email
+                        </strong> :&emsp;{email}
+                    </p>
+                    {notes?.map((note, index) => (
+                        <div key={note._id}>
+                            <p style={{ fontSize: "18px" }}>
+                                <strong style={{ display: "inline-block", width: "250px" }}>
+                                    Company Name
+                                </strong> :&emsp;{note.title}
+                            </p>
+                            <p style={{ fontSize: "18px" }}>
+                                <strong style={{ display: "inline-block", width: "250px" }}>
+                                    Company Address
+                                </strong> :&emsp; {note.content}
+                            </p>
+                            <p style={{ fontSize: "18px" }}>
+                                <strong style={{ display: "inline-block", width: "250px" }}>
+                                    Company Contact
+                                </strong> :&emsp; {note.category}
+                            </p>
+                        </div>
+                    ))}
+                </Form>
+            </Col>
+
+           
         </Row>
-      </div>
-    </MainScreen>
+
+        
+
+         {/* Center Column */}
+         <Col md={12} style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+         <br/> <h2>Tax Informaion</h2><br/>
+                {notes?.map((note, index) => (
+                    <div key={note._id}>
+                        <p style={{ fontSize: "18px" }}>
+                            <strong style={{ display: "inline-block", width: "250px" }}>
+                                Allocated Tax Payment/Year
+                            </strong> :&emsp; {((note.payment * 1)).toFixed(2)} LKR
+                        </p>
+                        <p style={{ fontSize: "18px" }}>
+                            <strong style={{ display: "inline-block", width: "250px" }}>
+                                Dept.Payment/Year(15% tax)
+                            </strong> :&emsp; {((note.payment * 0.15)).toFixed(2)} LKR
+                        </p>
+                        <p style={{ fontSize: "22px" }}>
+                            <strong style={{ display: "inline-block", width: "250px" }}>
+                                Total Payment/Year
+                            </strong> :&emsp; {((note.payment * 1) + (note.payment * 0.15)).toFixed(2)} LKR
+                        </p>
+                        <br />
+                        <p style={{ fontSize: "18px" }}>
+                            <strong style={{ display: "inline-block", width: "250px" }}>
+                                Quater 01 Payment
+                            </strong> :&emsp; {(note.status) || "pending"}
+                        </p>
+                        <p style={{ fontSize: "18px" }}>
+                            <strong style={{ display: "inline-block", width: "250px" }}>
+                                Quater 02 Payment
+                            </strong> :&emsp; {(note.status2) || "pending"}
+                        </p>
+                        <p style={{ fontSize: "18px" }}>
+                            <strong style={{ display: "inline-block", width: "250px" }}>
+                                Quater 03 Payment
+                            </strong> :&emsp; {(note.status3) || "pending"}
+                        </p>
+                        <p style={{ fontSize: "18px" }}>
+                            <strong style={{ display: "inline-block", width: "250px" }}>
+                                Quater 04 Payment
+                            </strong> :&emsp; {(note.status4) || "pending"}
+                        </p>
+                    </div>
+                ))}
+            </Col>
+
+        {/* Centered Back to Home Page Button */}
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
+            <Link to="/mynotes">
+                <Button type="submit" varient="primary">
+                    Back to Home Page
+                </Button>
+            </Link>
+        </div>
+    </div>
+</MainScreen>
+
   );
 };
 
